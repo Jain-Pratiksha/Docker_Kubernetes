@@ -27,7 +27,7 @@ services:
       - mongodb #name of service_name, Ensure MongoDB is started before the app
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/ShowWatchList #MongoDB connection string
-      #mongo://service_name:port/database, # Use the service name `mongodb` as the hostname inside the Docker network
+      #mongo://service_name:container_port/database, # Use the service name `mongodb` as the hostname inside the Docker network
     restart: unless-stopped           # Automatically restart unless stopped manually
 
 # ------------------------------------------
