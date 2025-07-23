@@ -1,0 +1,36 @@
+## 📜 docker-compose.yml
+
+version: '3.8' #Docker Compose file version
+
+services:
+  # --------------------------------------
+  # MongoDB Service (Generic Configuration)
+  # --------------------------------------
+  mongodb:
+    image: mongo:8.0 #Official MongoDB image
+    ports:
+      - "27017:27017" #Expose MongoDB on port 27017
+    volumes:
+      - mongodb_data:/data/mongodb #Persist MongoDB data
+    restart: unless-stopped #Restart policy
+
+  # ------------------------------------------------
+  # Spring Boot App Service (Generic Java Backend)
+  # ------------------------------------------------
+  shows_watchlist_service:
+#    image: shows_watchlist_service_0.1:latest #Replace with your Spring Boot app image
+    build: . # this will read the Dockerfile and create image, so this helps not to create image separately, use only if not mentioning image
+    ports:
+      - "8080:8080" #Expose Spring Boot app on port 8080
+    depends_on:
+      - mongodb #name of service_name, Ensure MongoDB is started before the app
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/ShowWatchList #MongoDB connection string
+      #mongo://service_name:port/database, # Use the service name `mongodb` as the hostname inside the Docker network
+    restart: unless-stopped           # Automatically restart unless stopped manually
+
+# ------------------------------------------
+# Named Volume for MongoDB Data Persistence
+# ------------------------------------------
+volumes:
+  mongodb_data:
