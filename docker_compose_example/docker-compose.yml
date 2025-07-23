@@ -10,6 +10,7 @@ services:
     image: mongo:8.0 #Official MongoDB image
     ports:
       - "27017:27017" #Expose MongoDB on port 27017
+      #You can also use 27018:27017 (host port:container port), this will help you see data on mongodb compass by mongodb://localhost:27018/
     volumes:
       - mongodb_data:/data/mongodb #Persist MongoDB data
     restart: unless-stopped #Restart policy
